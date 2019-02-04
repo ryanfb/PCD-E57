@@ -13,8 +13,7 @@
 #include <ctime>
 #include <string>
 //Contains the structure of XYZ point data
-#include "E57/E57Foundation.h"  //libE57 API
-#include "E57/E57Simple.h"
+#include "E57Format.h"  //libE57 API
 
 using namespace std;
 using namespace e57;
@@ -238,7 +237,7 @@ class E57{
 	        int astmMajor;
 	        int astmMinor;
 	        ustring libraryId;
-	        E57Utilities().getVersions(astmMajor, astmMinor, libraryId);
+          e57::Utilities::getVersions(astmMajor, astmMinor, libraryId);
 	        root.set("versionMajor", IntegerNode(imf, astmMajor));
 	        root.set("versionMinor", IntegerNode(imf, astmMinor));
 	

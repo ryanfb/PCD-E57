@@ -60,6 +60,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 IF(UNIX)
 INCLUDE(${CMAKE_MODULE_PATH}FindXerces.cmake)
 INCLUDE(${CMAKE_MODULE_PATH}FindICU.cmake)
+INCLUDE(${CMAKE_MODULE_PATH}E57Support.cmake)
 ENDIF(UNIX)
 
 SET(Xerces_USE_STATIC_LIBS On)
@@ -87,64 +88,6 @@ FIND_PACKAGE(PCL 1.6.0 REQUIRED)
 
 add_definitions(-DBOOST_ALL_NO_LIB -DXERCES_STATIC_LIBRARY)
 
-#--------------------------------------------------------------------------------
-# Building libE57
-#--------------------------------------------------------------------------------
-
-add_library( E57LIB
-	E57/E57Simple.h
-	E57/E57SimpleImpl.h
-        E57/E57Simple.cpp
-	E57/E57SimpleImpl.cpp
-	E57/E57Foundation.h
-	E57/E57FoundationImpl.h
-	E57/E57Foundation.cpp
-	E57/E57FoundationImpl.cpp
-	E57/time_conversion.h
-	E57/time_conversion.c
-	E57/gnss_error.h
-	E57/basictypes.h
-	E57/constants.h
-)
-
-set_target_properties( E57LIB
-    PROPERTIES COMPILE_DEFINITIONS ${CDEFS}
-)
-
-install(
-    FILES
-        E57/E57Simple.h
-        E57/E57Foundation.h
-    DESTINATION
-        include/e57
-)
-
-install(
-    TARGETS
-        E57LIB
-    ARCHIVE DESTINATION
-        lib
-)
-
-set(E57_SOURCES
-	E57/E57Simple.cpp
-	E57/E57SimpleImpl.cpp
-	E57/E57Foundation.cpp
-	E57/E57FoundationImpl.cpp
-	E57/time_conversion.c
-	)
-	
-set(E57_INCLUDES 
-	E57/E57Simple.h
-	E57/E57SimpleImpl.h
-	E57/E57Foundation.h
-	E57/E57FoundationImpl.h
-	E57/time_conversion.h
-	E57/gnss_error.h
-	E57/basictypes.h
-	E57/constants.h
-)
-	
 #--------------------------------------------------------------------------------
 # This is the list of source files that need to be compiled
 #--------------------------------------------------------------------------------
@@ -177,7 +120,7 @@ ADD_EXECUTABLE(e57_2_pcd
 
 TARGET_LINK_LIBRARIES ( e57_2_pcd
     ${PCL_LIBRARIES}
-    E57LIB
     ${XML_LIBRARIES}
     ${CMAKE_THREAD_LIBS_INIT}
 )
+target_link_LIBE57FORMAT( e57_2_pcd )

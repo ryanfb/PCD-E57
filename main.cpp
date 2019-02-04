@@ -52,9 +52,12 @@ int main (int argc, char** argv){
 				cout << "Error reading file" << endl;
 				return -1;
 			}
+      cout << "e57 loaded" << endl;
 
 			pcl::transformPointCloud (*cloud, *cloud_transformed, matrix);
 		
+      cout << "e57 transformed" << endl;
+
 			std::stringstream ss;
 			ss << "Scan-" << i << "-" << scanIndex << ".pcd";
 			cout << ss.str() << endl;
